@@ -10,9 +10,9 @@ module XssTerminate
       before_validation :sanitize_fields
 
       write_inheritable_attribute(:xss_terminate_options, {
-        :except => (options[:except] || []),
-        :html5lib_sanitize => (options[:html5lib_sanitize] || []),
-        :sanitize => (options[:sanitize] || [])
+        :except => (Array(options[:except]) || []),
+        :html5lib_sanitize => (Array(options[:html5lib_sanitize]) || []),
+        :sanitize => (Array(options[:sanitize]) || [])
       })
       
       class_inheritable_reader :xss_terminate_options
