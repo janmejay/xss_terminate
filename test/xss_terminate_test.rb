@@ -1,6 +1,14 @@
 require File.join(File.dirname(__FILE__), 'setup_test')
 
 class XssTerminateTest < Test::Unit::TestCase
+  def test_not_try_to_sanitize_for_destroyed_entities
+    c = Comment.create!(:title => "foo")
+    c.destroy
+    assert_nothing_raised do
+      c.valid?
+    end
+  end
+  
   def test_strip_tags_on_discovered_fields
     c = Comment.create!(:title => "<script>alert('xss in title')</script>",
                         :body => "<script>alert('xss in body')</script>")
